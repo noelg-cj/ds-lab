@@ -69,10 +69,66 @@ char *toPostfix(char *infix) {
     return postfix;
 }
 
-int main(void) {
-    char infix[] = "a+b*(c^d-e)^(f+g*h)-i";
+int evaluate(char *postfix) {
+    stack s;
+    s.top = -1;
 
-    char *postfix = toPostfix(infix);
-    printf("%s\n", postfix);
+    for (int i = 0; i < strlen(postfix); i++) {
+        if (isdigit(postfix[i])) {
+            s.arr[++s.top] = postfix[i] - '0';
+        }
+
+        else {
+            int a = s.arr[s.top--];
+            int b = s.arr[s.top--];
+            switch(postfix[i]) {
+                case '+':
+                    s.arr[++s.top] = a+b;
+                    break;
+                case '-':
+                    s.arr[++s.top] = a-b;
+                    break;
+                case '*':
+                    s.arr[++s.top] = a*b;
+                    break;
+                case '/': 
+                    s.arr[++s.top] = a/b;
+                    break;
+            }
+        }
+    }
+    return s.arr[s.top--];
+}
+
+int main(void) {
+    int op, flag = 0;
+    char infix[50];
+    char *postfix;
+    char post[50];
+
+    while(1) {
+        printf("1. Expression to postfix\n2. Postfix evaluation\n3. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &op);
+
+        switch(op) {
+            case 1: 
+                printf("Enter the expression: ");
+                scanf("%s", infix);
+                postfix = toPostfix(infix);
+                printf("Postfix expression: %s\n", postfix);
+                break;
+
+            case 2: 
+                printf("Enter the expression: ");
+                scanf("%s", post);
+                printf("Evaluation: %d\n", evaluate(post));
+
+            case 3: 
+                flag = 1;
+        }
+
+        if (flag) break;
+    }
     return 0;
 }
