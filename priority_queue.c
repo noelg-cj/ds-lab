@@ -36,17 +36,6 @@ void dequeue(queue *q) {
         return;
     }
 
-    int index = 0, max = q->arr[0];
-    for (int i = 0; i < q->size; i++) {
-        if (max < q->arr[i]) {
-            max = q->arr[i];
-            index = i;
-        }
-    }
-
-    for (int i = q->size; i >= index; i--) {
-        q->arr[i+1] = q->arr[i];
-    }
     q->size--;
 }
 
@@ -64,14 +53,38 @@ void display(queue *q) {
 }
 
 int main(void) {
+    int op, n, flag = 0;
     queue q;
     q.size = -1;
-    enqueue(&q, 5);
-    enqueue(&q, 7);
-    enqueue(&q, 8);
-    enqueue(&q, 6);
-    display(&q);
-    dequeue(&q);
-    display(&q);
+    while (1) {
+        printf("1. Enqueue\n2. Dequeue\n3. Display\n4. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &op);
+        switch (op)
+        {
+        case 1:
+            printf("Enter number: ");
+            scanf("%d", &n);
+            enqueue(&q, n);
+            display(&q);
+            break;
+
+        case 2: 
+            dequeue(&q);
+            display(&q);
+            break;
+
+        case 3: 
+            display(&q);
+            break;
+        
+        case 4: 
+            flag = 1;
+        default:
+            break;
+        }
+
+        if (flag) break;
+    }
     return 0;
 }
