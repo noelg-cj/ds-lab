@@ -8,7 +8,7 @@ typedef struct queue {
     int *arr;
 } queue;
 
-void enqueue(queue *q, int n) {
+void enqueueFront(queue *q, int n) {
     if (q->front == -1 && q->rear == -1) {
         q->front = q->rear = 0;
         q->arr[q->front] = n;
@@ -25,7 +25,7 @@ void enqueue(queue *q, int n) {
     }
 }
 
-void dequeue(queue *q) {
+void dequeueBack(queue *q) {
     if (q->front == -1 && q->rear == -1) {
         printf("Queue is empty\n");
     }
@@ -72,12 +72,12 @@ int main(void) {
             case 1: 
                 printf("Enter the number to be enqueued: ");
                 scanf("%d", &n);
-                enqueue(&q, n);
+                enqueueFront(&q, n);
                 display(&q);
                 break;
 
             case 2: 
-                dequeue(&q);
+                dequeueBack(&q);
                 display(&q);
                 break;
 

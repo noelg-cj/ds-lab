@@ -5,7 +5,7 @@ typedef struct queue {
     int size;
 } queue;
 
-void enqueue(queue *q, int n) {
+void enqueueFront(queue *q, int n) {
     if (q->size == 99) {
         printf("Queue is full.\n");
         return;
@@ -30,7 +30,7 @@ void enqueue(queue *q, int n) {
     return;
 }
 
-void dequeue(queue *q) {
+void dequeueBack(queue *q) {
     if (q->size == -1) {
         printf("Queue is empty.\n");
         return;
@@ -65,12 +65,12 @@ int main(void) {
         case 1:
             printf("Enter number: ");
             scanf("%d", &n);
-            enqueue(&q, n);
+            enqueueFront(&q, n);
             display(&q);
             break;
 
         case 2: 
-            dequeue(&q);
+            dequeueBack(&q);
             display(&q);
             break;
 
