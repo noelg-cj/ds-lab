@@ -106,7 +106,7 @@ int main(void) {
 
             case 5: 
                 display(&q);
-                return;
+                break;
 
             case 6: 
                 flag = 1;
