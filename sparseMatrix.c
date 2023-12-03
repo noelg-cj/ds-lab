@@ -84,7 +84,7 @@ term *addTuples(term *a, term *b) {
         if (a[a_pos].row > b[b_pos].row || a[a_pos].row == b[b_pos].row && a[a_pos].col > b[b_pos].col) {
             result[0].value++;
             int pos = result[0].value;
-            result = (term*)realloc(result, pos+1*sizeof(term));
+            result = (term*)realloc(result, (pos+1)*sizeof(term));
             result[pos].row = b[b_pos].row;
             result[pos].col = b[b_pos].col;
             result[pos].value = b[b_pos].value;
@@ -93,7 +93,7 @@ term *addTuples(term *a, term *b) {
         else if (a[a_pos].row < b[b_pos].row || a[a_pos].row == b[b_pos].row && a[a_pos].col < b[b_pos].col) {
             result[0].value++;
             int pos = result[0].value;
-            result = (term*)realloc(result, pos+1*sizeof(term));
+            result = (term*)realloc(result, (pos+1)*sizeof(term));
             result[pos].row = a[a_pos].row;
             result[pos].col = a[a_pos].col;
             result[pos].value = a[a_pos].value;
@@ -102,7 +102,7 @@ term *addTuples(term *a, term *b) {
         else {
             result[0].value++;
             int pos = result[0].value;
-            result = (term*)realloc(result, pos+1*sizeof(term));
+            result = (term*)realloc(result, (pos+1)*sizeof(term));
             result[pos].row = a[a_pos].row;
             result[pos].col = a[a_pos].col;
             result[pos].value = a[a_pos].value + b[b_pos].value;
@@ -135,52 +135,117 @@ term *addTuples(term *a, term *b) {
 }
 
 int main(void) {
-    int n, m, a, b;
-    printf("Enter rows of first matrix: ");
-    scanf("%d", &n);
-    printf("Enter columns of first matrix: ");
-    scanf("%d", &m);
+    int n, m, a, b, op, flag = 0;
+    int **arr1, **arr2;
+    term *smatrix1, *smatrix2, *res;
 
-    int **arr = (int**)malloc(n*sizeof(int));
-    for (int i = 0; i < n; i++) {
-        arr[i] = (int*)malloc(m*sizeof(int));
-    }
+    while (1) {
+        printf("1. Create tuple\n2. Transpose tuple\n3. Add tuples\n4. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &op);
 
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < m; j++) {
-            printf("Enter number at (%d, %d): ", i, j);
-            scanf("%d", &arr[i][j]);
+        switch(op) {
+            case 1: 
+                printf("Enter rows of matrix: ");
+                scanf("%d", &n);
+                printf("Enter columns of matrix: ");
+                scanf("%d", &m);
+
+                arr1 = (int**)malloc(n*sizeof(int));
+                for (int i = 0; i < n; i++) {
+                    arr1[i] = (int*)malloc(m*sizeof(int));
+                }
+
+                for (int i = 0; i < n; i++) {
+                    for (int j = 0; j < m; j++) {
+                        printf("Enter number at (%d, %d): ", i, j);
+                        scanf("%d", &arr1[i][j]);
+                    }
+                }
+                
+                smatrix1 = convertToTuple(arr1, n, m, getSize(arr1, n, m));
+                printTuple(smatrix1);
+                break;
+
+            case 2:
+                printf("Enter rows of matrix: ");
+                scanf("%d", &n);
+                printf("Enter columns of matrix: ");
+                scanf("%d", &m);
+
+                arr1 = (int**)malloc(n*sizeof(int));
+                for (int i = 0; i < n; i++) {
+                    arr1[i] = (int*)malloc(m*sizeof(int));
+                }
+
+                for (int i = 0; i < n; i++) {
+                    for (int j = 0; j < m; j++) {
+                        printf("Enter number at (%d, %d): ", i, j);
+                        scanf("%d", &arr1[i][j]);
+                    }
+                }
+                printf("The given tuple: \n");
+                smatrix1 = convertToTuple(arr1, n, m, getSize(arr1, n, m));
+                printTuple(smatrix1);
+                res = transposeTuple(smatrix1);
+                printf("Transposed tuple: \n");
+                printTuple(res);
+                break;
+
+            case 3:
+                printf("Enter rows of first matrix: ");
+                scanf("%d", &n);
+                printf("Enter columns of first matrix: ");
+                scanf("%d", &m);
+
+                arr1 = (int**)malloc(n*sizeof(int));
+                for (int i = 0; i < n; i++) {
+                    arr1[i] = (int*)malloc(m*sizeof(int));
+                }
+
+                for (int i = 0; i < n; i++) {
+                    for (int j = 0; j < m; j++) {
+                        printf("Enter number at (%d, %d): ", i, j);
+                        scanf("%d", &arr1[i][j]);
+                    }
+                }
+
+                printf("Enter rows of second matrix: ");
+                scanf("%d", &a);
+                printf("Enter columns of second matrix: ");
+                scanf("%d", &b);
+
+                arr2 = (int**)malloc(a*sizeof(int));
+                for (int i = 0; i < a; i++) {
+                    arr2[i] = (int*)malloc(b*sizeof(int));
+                }
+
+                for (int i = 0; i < a; i++) {
+                    for (int j = 0; j < b; j++) {
+                        printf("Enter number at (%d, %d): ", i, j);
+                        scanf("%d", &arr2[i][j]);
+                    }
+                }
+
+                printf("First matrix: \n");
+                smatrix1 = convertToTuple(arr1, n, m, getSize(arr1, n, m));
+                printTuple(smatrix1);
+
+                printf("Second matrix: ");
+                smatrix2 = convertToTuple(arr2, a, b, getSize(arr2, a, b));
+                printTuple(smatrix2);
+
+                res = addTuples(smatrix1, smatrix2);
+                printf("On addition: \n");
+                printTuple(res);
+                break;
+
+            case 4: 
+                flag = 1;
+                break;
         }
+        if (flag) break;
     }
 
-    printf("Enter rows of second matrix: ");
-    scanf("%d", &a);
-    printf("Enter columns of second matrix: ");
-    scanf("%d", &b);
-
-    int **arr1 = (int**)malloc(a*sizeof(int));
-    for (int i = 0; i < a; i++) {
-        arr1[i] = (int*)malloc(b*sizeof(int));
-    }
-
-    for (int i = 0; i < a; i++) {
-        for (int j = 0; j < b; j++) {
-            printf("Enter number at (%d, %d): ", i, j);
-            scanf("%d", &arr1[i][j]);
-        }
-    }
-
-    printf("First matrix: \n");
-    int size = getSize(arr, n, m);
-    term *smatrix = convertToTuple(arr, n, m, size);
-    printTuple(smatrix);
-
-    printf("Second matrix: ");
-    int size2 = getSize(arr1, a, b);
-    term *smatrix1 = convertToTuple(arr1, a, b, size2);
-    printTuple(smatrix1);
-
-    term *result = addTuples(smatrix1, smatrix);
-    printf("On addition: \n");
-    printTuple(result);
+    return 0;
 }
