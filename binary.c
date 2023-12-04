@@ -13,7 +13,7 @@ void binary(char buffer[50][50], int len, char key[50]) {
             return;
         }
 
-        else if (strcmp(buffer[mid], key) > 0) {
+        else if (strcmp(buffer[mid], key) < 0) {
             l = mid+1;
         }
 
@@ -58,11 +58,11 @@ int main(void) {
 
     fclose(fptr);
 
-    binary(buffer, len, "John\n");
-
     printf("\nOn sorting: \n");
     bubble(buffer, len);
     for (int i = 0; i < len; i++) {
         printf("%s", buffer[i]);
     }
+
+    binary(buffer, len, "John\n");
 }
