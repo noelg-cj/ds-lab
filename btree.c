@@ -6,5 +6,7 @@ typedef struct node {
 } node;
 
 int main(void) {
-
+    int n;
+    printf("Enter the number of inputs: ");
+    scanf("%d", &n);
 }
