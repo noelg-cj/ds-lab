@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 typedef struct node {
     int data;
@@ -6,8 +7,5 @@ typedef struct node {
 } node;
 
 int main(void) {
-    int n;
-    printf("Enter the number of inputs: ");
-    scanf("%d", &n);
-    
+    node *head = (node*)malloc(sizeof(node));
 }
