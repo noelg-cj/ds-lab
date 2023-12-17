@@ -20,7 +20,6 @@ void enqueue(queue *q, node *n) {
     } 
 
     if (q->front == q->size) {
-        printf("Queue is full\n");
         return;
     }
 
@@ -30,13 +29,10 @@ void enqueue(queue *q, node *n) {
 
 node *dequeue(queue *q) {
     node *n;
-    printf("hi");
     if (q->rear == q->front) {
-        printf("Queue is empty.\n");
         return NULL;
     }
     n = q->arr[q->rear];
-    printf("bye");
     q->rear++;
     return n;
 }
@@ -49,52 +45,71 @@ node *createNode(int data) {
 }
 
 node *insert(node *root, int data) {
-    printf("starting insert..\n");
     node *n = createNode(data);
 
     if (!root) {
-        printf("Root was empty - ");
         root = n;
-        printf("%d\n", root->data);
         return root;
     }
 
     queue *q = (queue*)malloc(sizeof(queue));
-    q->arr = (node**)malloc(sizeof(node**)*100);
-    printf("Memory allocated\n");
+    q->arr = (node**)malloc(sizeof(node*)*100);
+    q->front = q->rear = -1;
 
     enqueue(q, root);
-    printf("Root enqueued\n");
 
     while (q->front != q->rear) {
-        printf("loop entered\n");
         node *curr = dequeue(q);
-        printf("%d dequeued\n", curr->data);
 
         if (!curr->left) {
             curr->left = n;
-        }
-
-        else if (!curr->right) {
-            curr->right = n;
+            break;
         }
 
         else {
             enqueue(q, curr->left);
+        }
+
+        if (!curr->right) {
+            curr->right = n;
+            break;
+        }
+
+        else {
             enqueue(q, curr->right);
         }
     }
+    printf("%d insertion successful\n", data);
     return root;
 }
 
 void inorder(node *root) {
     if (root == NULL) {
-        printf("head is empty");
         return;
     }
     inorder(root->left);
     printf("%d ", root->data);
     inorder(root->right);
+}
+
+void preorder(node *root) {
+    if (root == NULL) {
+        return;
+    }
+
+    printf("%d ", root->data);
+    preorder(root->left);
+    preorder(root->right);
+}
+
+void postorder(node *root) {
+    if (root == NULL) {
+        return;
+    }
+
+    postorder(root->left);
+    postorder(root->right);
+    printf("%d ", root->data);
 }
 
 int main(void) {
@@ -107,6 +122,13 @@ int main(void) {
     head = insert(head, 8);
     head = insert(head, 9);
     head = insert(head, 10);
+    head = insert(head, 12);
     head = insert(head, 11);
+    head = insert(head, 13);
     inorder(head);
+    printf("\n");
+    preorder(head);
+    printf("\n");
+    postorder(head);
+    printf("\n");
 }
