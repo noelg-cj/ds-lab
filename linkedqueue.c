@@ -31,7 +31,7 @@ void enqueue(node *head, int data) {
 
 void dequeue(node *head) {
     if (head->next == NULL) {
-        printf("List is empty.\n");
+        printf("Queue is empty.\n");
         return;
     }
 
@@ -56,7 +56,7 @@ int main(void) {
     head->next = NULL;
     
     while (1) {
-        printf("1. Insert at beginning\n2. Insert at end\n3. Exit\n");
+        printf("1. Enqueue\n2. Dequeue\n3. Exit\n");
         printf("Enter your choice: ");
         scanf("%d", &op);
 
